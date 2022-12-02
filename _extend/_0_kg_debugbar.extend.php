@@ -5,14 +5,19 @@
  *
  * @var string \KG_DEBUGBAR_DIR 플러그인 폴더명
  * @var bool \KG_DEBUGBAR_ENABLE PHP DebugBar 활성화. 최고관리자에게만 활성화 됨
- * @var array \KG_DEBUGBAR_ENABLE_IP 일치하는 IP에 대해 PHP DebugBar 활성화. 관리자 여부 상관 없음
+ * @var array \KG_DEBUGBAR_ENABLE_IP 일치하는 IP에 대해 PHP DebugBar 활성화
+ *                                   관리자 여부 상관 없음
  */
-
 if (!defined('_GNUBOARD_')) {
     exit;
 }
+if (PHP_VERSION_ID < 70400) {
+    return;
+}
 
-include_once G5_PATH . '/config.custom.php';
+if (file_exists(G5_PATH . '/config.custom.php')) {
+    include_once G5_PATH . '/config.custom.php';
+}
 
 if (!defined('KG_DEBUGBAR_DIR')) {
     /**
@@ -20,10 +25,6 @@ if (!defined('KG_DEBUGBAR_DIR')) {
      */
     define('KG_DEBUGBAR_DIR', 'kg_phpdebugbar');
 }
-define('KG_DEBUGBAR_PATH', G5_PLUGIN_PATH . '/' . KG_DEBUGBAR_DIR);
-define('KG_DEBUGBAR_URL', G5_PLUGIN_URL . '/' . KG_DEBUGBAR_DIR);
-
-include_once KG_DEBUGBAR_PATH . '/vendor/autoload.php';
 
 if (!defined('KG_DEBUGBAR_ENABLE_IP')) {
     /**
@@ -45,4 +46,7 @@ if (!defined('KG_DEBUGBAR_ENABLE')) {
     define('KG_DEBUGBAR_ENABLE', $enable);
 }
 
-include_once(KG_DEBUGBAR_PATH . '/index.php');
+define('KG_DEBUGBAR_PATH', G5_PLUGIN_PATH . '/' . KG_DEBUGBAR_DIR);
+define('KG_DEBUGBAR_URL', G5_PLUGIN_URL . '/' . KG_DEBUGBAR_DIR);
+
+include_once KG_DEBUGBAR_PATH . '/vendor/autoload.php';

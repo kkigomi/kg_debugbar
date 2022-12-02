@@ -1,0 +1,13 @@
+.phpdebugbar .phpdebugbar-widgets-hook {
+  display: inline-block;
+}
+
+.phpdebugbar .phpdebugbar-widgets-table {
+  width: 100%;
+}
+
+.phpdebugbar .phpdebugbar-widgets-table th,
+.phpdebugbar .phpdebugbar-widgets-table td {
+  border: 1px solid #ddd;
+  padding: 5px;
+}
