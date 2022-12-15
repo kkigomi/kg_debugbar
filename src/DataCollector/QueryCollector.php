@@ -1,5 +1,5 @@
 <?php
-namespace Kkigomi\Plugin\PHPDebugBar\DataCollector;
+namespace Kkigomi\Plugin\Debugbar\DataCollector;
 
 use DebugBar\DataCollector;
 use DebugBar\DataCollector\AssetProvider;
@@ -10,9 +10,9 @@ class QueryCollector extends DataCollector\DataCollector implements DataCollecto
     protected $queries = [];
     protected $accumulated_duration = 0;
 
-    public function addQuery(string $query, ?float $duration = null, int $rowCount = 0, array $error, $trace = null): void
+    public function addQuery(string $query, ?float $duration = null, int $rowCount = 0, array $error = [], $trace = null): void
     {
-        $query = preg_replace("/\n[ ]*/", "\n", $query);
+        $query = preg_replace("/\n[ ]*/", " ", $query);
 
         $source = '';
         if ($trace) {
@@ -36,8 +36,8 @@ class QueryCollector extends DataCollector\DataCollector implements DataCollecto
             'duration' => $duration,
             'row_count' => $rowCount,
             'is_success' => !(!!$error['error_code']),
-            'error_code' => $error['error_code'],
-            'error_message' => $error['error_message'],
+            'error_code' => $error['error_code'] ?? null,
+            'error_message' => $error['error_message'] ?? null,
             'duration_str' => $duration ? $this->getDataFormatter()->formatDuration($duration) : null,
         ];
     }
@@ -54,20 +54,20 @@ class QueryCollector extends DataCollector\DataCollector implements DataCollecto
 
     public function getName(): string
     {
-        return 'pdo';
+        return 'dbquery';
     }
 
     public function getWidgets(): array
     {
         return array(
-            'database' => array(
+            'queries' => array(
                 'icon' => 'database',
                 'widget' => 'PhpDebugBar.Widgets.SQLQueriesWidget',
-                'map' => 'pdo',
+                'map' => 'dbquery',
                 'default' => '[]'
             ),
-            'database:badge' => array(
-                'map' => 'pdo.nb_statements',
+            'queries:badge' => array(
+                'map' => 'dbquery.nb_statements',
                 'default' => 0
             )
         );

@@ -1,5 +1,5 @@
 <?php
-namespace Kkigomi\Plugin\PHPDebugBar\Logger;
+namespace Kkigomi\Plugin\Debugbar\Logger;
 
 use Psr\Log\NullLogger;
 

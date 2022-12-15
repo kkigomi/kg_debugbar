@@ -20,28 +20,30 @@ if (file_exists(G5_PATH . '/config.custom.php')) {
 }
 
 if (!defined('KG_DEBUGBAR_DIR')) {
-    /**
-     * @var string
-     */
-    define('KG_DEBUGBAR_DIR', 'kg_phpdebugbar');
+    /** * @var string */
+    define('KG_DEBUGBAR_DIR', 'kg_debugbar');
 }
 
 if (!defined('KG_DEBUGBAR_ENABLE_IP')) {
-    /**
-     * @var array
-     */
+    /** * @var string[] */
     define('KG_DEBUGBAR_ENABLE_IP', []);
 }
 
 if (!defined('KG_DEBUGBAR_ENABLE')) {
     $enable = false;
+
+    // IP가 지정된 경우 관리자에게 디버그바 항상 활성화
+    if (is_array(KG_DEBUGBAR_ENABLE_IP) && count(KG_DEBUGBAR_ENABLE_IP) && $is_admin === 'super') {
+        $enable = true;
+    }
+
     if (in_array($_SERVER['REMOTE_ADDR'], KG_DEBUGBAR_ENABLE_IP)) {
         $enable = true;
     }
 
     /**
      * PHP Debugbar 활성화
-     * array `PHPDEBUGBAR_ENABLE_IP` IP 목록에 접속자의 IP가 있으면 활성화 함
+     * @var string[] KG_DEBUGBAR_ENABLE_IP IP 목록에 접속자의 IP가 있으면 활성화 함
      */
     define('KG_DEBUGBAR_ENABLE', $enable);
 }

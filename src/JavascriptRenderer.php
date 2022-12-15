@@ -1,7 +1,9 @@
 <?php
-namespace Kkigomi\Plugin\PHPDebugBar;
+namespace Kkigomi\Plugin\Debugbar;
 
-class JavascriptRenderer extends \DebugBar\JavascriptRenderer
+use \DebugBar\JavascriptRenderer as BaseJavascriptRenderer;
+
+class JavascriptRenderer extends BaseJavascriptRenderer
 {
     public function renderHead()
     {

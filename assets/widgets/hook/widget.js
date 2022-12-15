@@ -83,6 +83,11 @@
         this.$replaceBody.appendTo(this.$el).show();
 
         this.bindAttr('data', function (data) {
+          this.$eventHeader.empty();
+          this.$eventBody.empty();
+          this.$replaceHeader.empty();
+          this.$replaceBody.empty();
+
           $('<em>' + data.total.event + '</em>').appendTo(this.$eventHeader);
           $('<em>' + data.total.replace + '</em>').appendTo(
             this.$replaceHeader
@@ -96,9 +101,7 @@
               .addClass(csscls('hook-item'))
               .appendTo(this.$eventBody);
 
-            if (item.listener.length) {
-              this.get('itemRenderer')($itemContainer, item);
-            }
+            this.get('itemRenderer')($itemContainer, item);
           });
 
           Object.values(data.replace).forEach((item) => {
@@ -106,9 +109,7 @@
               .addClass(csscls('hook-item'))
               .appendTo(this.$replaceBody);
 
-            if (item.listener?.length) {
-              this.get('itemRenderer')($itemContainer, item);
-            }
+            this.get('itemRenderer')($itemContainer, item);
           });
         });
       },

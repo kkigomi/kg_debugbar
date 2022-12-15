@@ -1,5 +1,5 @@
 <?php
-namespace Kkigomi\Plugin\PHPDebugBar\Logger;
+namespace Kkigomi\Plugin\Debugbar\Logger;
 
 use DebugBar\DataCollector\MessagesCollector;
 use Psr\Log\AbstractLogger;
@@ -13,7 +13,7 @@ class DebugbarLogger extends AbstractLogger
         $this->messageCollector = $messageCollector;
     }
 
-    public function log($level, $message, array $context = array()): void
+    public function log($level, $message, array $context = []): void
     {
         if (is_string($message)) {
             $message = $this->messageCollector->interpolate($message, $context);

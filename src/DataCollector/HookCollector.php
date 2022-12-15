@@ -1,5 +1,5 @@
 <?php
-namespace Kkigomi\Plugin\PHPDebugBar\DataCollector;
+namespace Kkigomi\Plugin\Debugbar\DataCollector;
 
 use DebugBar\DataCollector;
 use DebugBar\DataCollector\AssetProvider;
@@ -11,6 +11,9 @@ class HookCollector extends DataCollector\DataCollector implements DataCollector
     protected $replace = [];
     protected $replaceListener = [];
 
+    /**
+     * @fixme 중복 코드 제거
+     */
     public function collect(): array
     {
         $total = [
@@ -47,16 +50,14 @@ class HookCollector extends DataCollector\DataCollector implements DataCollector
                     if (is_array($action['function'])) {
                         $class = is_string($action['function'][0]) ? $action['function'][0] : get_class($action['function'][0]);
                         $function = $action['function'][1];
-                        $ddd = new \ReflectionMethod($class, $function);
-                        $actualArgumentCount = $ddd->getNumberOfParameters();
-                        $getParameters = $ddd->getParameters();
-                        $methodType = $ddd->isStatic() ? '::' : '->';
+                        $ref = new \ReflectionMethod($class, $function);
+                        $actualArgumentCount = $ref->getNumberOfParameters();
+                        $methodType = $ref->isStatic() ? '::' : '->';
                     } else {
                         $class = null;
                         $function = $action['function'];
-                        $ddd = new \ReflectionFunction($action['function']);
-                        $actualArgumentCount = $ddd->getNumberOfParameters();
-                        $getParameters = $ddd->getParameters();
+                        $ref = new \ReflectionFunction($action['function']);
+                        $actualArgumentCount = $ref->getNumberOfParameters();
                     }
 
                     $this->event[$tag]['listener'][] = [
@@ -67,7 +68,6 @@ class HookCollector extends DataCollector\DataCollector implements DataCollector
                         'priority' => (int) $priority ?? \G5_HOOK_DEFAULT_PRIORITY,
                         'argumentsCount' => (int) $action['arguments'],
                         'actualArgumentCount' => $actualArgumentCount,
-                        'getParameters' => $getParameters,
                     ];
                 }
             }
@@ -103,17 +103,16 @@ class HookCollector extends DataCollector\DataCollector implements DataCollector
                         $class = is_string($action['function'][0]) ? $action['function'][0] : get_class($action['function'][0]);
                         $function = $action['function'][1];
                         $methodType = null;
-                        $ddd = new \ReflectionMethod($class, $function);
-                        $actualArgumentCount = $ddd->getNumberOfParameters();
-                        $getParameters = $ddd->getParameters();
-                        $methodType = $ddd->isStatic() ? '::' : '->';
+                        $ref = new \ReflectionMethod($class, $function);
+                        $actualArgumentCount = $ref->getNumberOfParameters();
+                        $getParameters = $ref->getParameters();
+                        $methodType = $ref->isStatic() ? '::' : '->';
                     } else {
                         $class = null;
                         $methodType = null;
                         $function = $action['function'];
-                        $ddd = new \ReflectionFunction($action['function']);
-                        $actualArgumentCount = $ddd->getNumberOfParameters();
-                        $getParameters = $ddd->getParameters();
+                        $ref = new \ReflectionFunction($action['function']);
+                        $actualArgumentCount = $ref->getNumberOfParameters();
                     }
 
 
@@ -125,7 +124,6 @@ class HookCollector extends DataCollector\DataCollector implements DataCollector
                         'priority' => (int) $priority ?? \G5_HOOK_DEFAULT_PRIORITY,
                         'argumentsCount' => (int) $action['arguments'],
                         'actualArgumentCount' => $actualArgumentCount,
-                        'getParameters' => $getParameters,
                     ];
                 }
             }

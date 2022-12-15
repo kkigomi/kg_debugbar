@@ -10,7 +10,8 @@ class ComposerStaticInit9334d4d039ef366aafe9ceefc8da756c
         '0e6d7bf4a5811bfa5cf40c5ccd6fae6a' => __DIR__ . '/..' . '/symfony/polyfill-mbstring/bootstrap.php',
         'a4a119a56e50fbb293281d9a48007e0e' => __DIR__ . '/..' . '/symfony/polyfill-php80/bootstrap.php',
         '667aeda72477189d0494fecd327c3641' => __DIR__ . '/..' . '/symfony/var-dumper/Resources/functions/dump.php',
-        '91d2d6b87580bdb8b30f6d974d351969' => __DIR__ . '/../..' . '/bootstrap.php',
+        'cfd86d297c643778aa4c643b2ac245e0' => __DIR__ . '/../..' . '/bootstrap.php',
+        'b39cbaa6948941c0403d7949b6eafe4c' => __DIR__ . '/../..' . '/helper.php',
     );
 
     public static $prefixLengthsPsr4 = array (
@@ -26,7 +27,7 @@ class ComposerStaticInit9334d4d039ef366aafe9ceefc8da756c
         ),
         'K' => 
         array (
-            'Kkigomi\\Plugin\\PHPDebugBar\\' => 27,
+            'Kkigomi\\Plugin\\Debugbar\\' => 24,
         ),
         'D' => 
         array (
@@ -51,7 +52,7 @@ class ComposerStaticInit9334d4d039ef366aafe9ceefc8da756c
         array (
             0 => __DIR__ . '/..' . '/psr/log/Psr/Log',
         ),
-        'Kkigomi\\Plugin\\PHPDebugBar\\' => 
+        'Kkigomi\\Plugin\\Debugbar\\' => 
         array (
             0 => __DIR__ . '/../..' . '/src',
         ),

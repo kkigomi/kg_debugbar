@@ -463,7 +463,7 @@ if (typeof(PhpDebugBar) == 'undefined') {
             }
 
             // Reset height to ensure bar is still visible
-            this.setHeight(this.$body.height());
+            this.setHeight(this.$body.outerHeight());
         },
 
         /**
@@ -473,12 +473,17 @@ if (typeof(PhpDebugBar) == 'undefined') {
          */
         render: function() {
             var self = this;
+            const noticeVisible = !!window.kgDebugBarIPEnabled_1ff9dfc8ced345a2abb4ad98b85b297f && ((sessionStorage.getItem('phpdebugbar-notice-visible') || 'true') === 'true');
+
             this.$el.appendTo('body');
             this.$dragCapture = $('<div />').addClass(csscls('drag-capture')).appendTo(this.$el);
             this.$resizehdle = $('<div />').addClass(csscls('resize-handle')).appendTo(this.$el);
             this.$header = $('<div />').addClass(csscls('header')).appendTo(this.$el);
             this.$headerLeft = $('<div />').addClass(csscls('header-left')).appendTo(this.$header);
             this.$headerRight = $('<div />').addClass(csscls('header-right')).appendTo(this.$header);
+            if (noticeVisible) {
+                this.$notice = $('<div />').addClass(csscls('notice')).appendTo(this.$el);
+            }
             var $body = this.$body = $('<div />').addClass(csscls('body')).appendTo(this.$el);
             this.recomputeBottomOffset();
 
@@ -538,6 +543,16 @@ if (typeof(PhpDebugBar) == 'undefined') {
                 self.dataChangeHandler(self.datasets[this.value]);
                 self.showTab();
             });
+
+            // const noticeVisible = localStorage.getItem('phpdebugbar-notice-visible');
+            if (noticeVisible) {
+                const noticeMessage = $(`<p>Debugbar가 IP 설정에 의해 동작하고 있습니다. 이 설정은 <strong>방문자에게 노출</strong>될 수 있으니 설정을 검토하세요. <button type="button" title="이 메시지 가리기"></button><br><code>KG_DEBUGBAR_ENABLE_IP = ${kgDebugBarIPList_1ff9dfc8ced345a2abb4ad98b85b297f}</code></p>`).appendTo(this.$notice);
+                const hideNotice = noticeMessage.find('button').addClass(csscls('hide-notice-btn'));
+                hideNotice.on('click', () => {
+                    this.$notice.remove();
+                    sessionStorage.setItem('phpdebugbar-notice-visible', 'false');
+                })
+            }
         },
 
         /**
